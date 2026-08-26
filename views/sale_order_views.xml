@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Confirm button shows the latest chatter log note (e.g. urgent delivery
+         instructions) before proceeding. -->
+    <record id="view_order_form_urgent_note_check" model="ir.ui.view">
+        <field name="name">sale.order.form.urgent.note.check</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Only the draft-state Confirm button routes through the log
+                 note check; the sent-state Confirm (has @id) stays standard.
+                 Match on not(@id): xpaths hit only the first node, and the
+                 sent-state button comes first in document order. -->
+            <xpath expr="//header/button[@name='action_confirm' and not(@id)]" position="attributes">
+                <attribute name="name">action_confirm_with_check</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_form_restrict_customer_select" model="ir.ui.view">
+        <field name="name">sale.order.form.restrict.customer.select</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='partner_details']/field[@name='partner_id']" position="attributes">
+                <attribute name="context">{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True, 'sale_custom_restrict_partners': True}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

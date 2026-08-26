@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Show salesperson (name + phone) on the printed/sent invoice PDF so the
+         trucker knows who to call in case of an issue at delivery. -->
+    <template id="report_invoice_document_salesperson" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@id='informations']/div[@name='origin']" position="after">
+            <div class="col" t-if="o.invoice_user_id and o.move_type in ('out_invoice', 'out_refund')" name="salesperson">
+                <strong>Salesperson</strong>
+                <div t-field="o.invoice_user_id.name"/>
+                <div t-if="o.invoice_user_id.phone">Tel: <span t-field="o.invoice_user_id.phone"/></div>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Make the Salesperson column visible by default on the invoice list. -->
+    <record id="view_invoice_tree_salesperson" model="ir.ui.view">
+        <field name="name">account.invoice.list.salesperson</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_user_id']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

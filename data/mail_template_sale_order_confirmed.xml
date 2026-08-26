@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_template_sale_order_confirmed_salesperson" model="mail.template">
+        <field name="name">Sale Custom: SO Confirmed (Salesperson)</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="email_from">{{ user.email_formatted }}</field>
+        <field name="email_to" eval="False"/>
+        <field name="partner_to">{{ object.user_id.partner_id.id }}</field>
+        <field name="subject">Sales Order {{ object.name }} confirmed</field>
+        <field name="body_html" type="html">
+<div style="margin:0;padding:0;">
+    <p>Hello <t t-out="object.user_id.name"/>,</p>
+    <p>Sales order <strong><t t-out="object.name"/></strong> for
+       <t t-out="object.partner_id.name"/> has been confirmed.
+       Total amount:
+       <span t-out="object.amount_total"
+             t-options="{'widget': 'monetary', 'display_currency': object.currency_id}"/>.</p>
+    <p style="margin:16px 0;">
+        <a t-att-href="object.sale_custom_get_backend_url()"
+           style="background-color:#875A7B;padding:10px 20px;border-radius:4px;color:#FFFFFF;text-decoration:none;display:inline-block;">View Sales Order</a>
+    </p>
+</div>
+        </field>
+        <field name="auto_delete" eval="False"/>
+    </record>
+</odoo>

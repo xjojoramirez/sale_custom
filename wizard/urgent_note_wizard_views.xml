@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="confirm_log_note_wizard_view_form" model="ir.ui.view">
+        <field name="name">sale_custom.confirm.log.note.wizard.form</field>
+        <field name="model">sale_custom.confirm.log.note.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Urgent Note">
+                <field name="order_ids" invisible="1"/>
+                <div style="white-space: pre-line;">
+                    <field name="note_body" nolabel="1" readonly="1"/>
+                </div>
+                <footer>
+                    <button string="OK" name="action_ok" type="object"
+                            default_focus="1" class="btn-primary" data-hotkey="q"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
